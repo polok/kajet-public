@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wsparcie</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #F3F2F9;
+    --surface: #FFFFFF;
+    --ink: #18162C;
+    --ink-soft: #6C6987;
+    --accent: #4F46E5;
+    --border: #E4E1F1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131223;
+      --surface: #1C1B30;
+      --ink: #F5F4FB;
+      --ink-soft: #A6A3BE;
+      --accent: #8B85F5;
+      --border: #2C2A45;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 20px 48px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    font-size: 15.5px;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .updated {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+  }
+  h2 {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 28px 0 8px;
+  }
+  p, li { color: var(--ink); }
+  p { margin: 0 0 12px; }
+  ul { margin: 0 0 12px; padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 0 0 24px;
+  }
+  .callout strong { color: var(--accent); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <h1>Wsparcie</h1>
+  <p class="updated">Ostatnia aktualizacja: 21 września 2026</p>
+
+  <div class="callout">
+    <strong>Potrzebujesz pomocy?</strong> Napisz do nas — odpowiadamy najszybciej jak
+    to możliwe.
+  </div>
+
+  <h2>Kontakt</h2>
+  <p>Masz pytanie, sugestię lub natrafiłeś na problem w działaniu aplikacji Kajet?
+  Napisz na adres:</p>
+  <p><a href="mailto:kontakt@ideaapps.io">kontakt@ideaapps.io</a></p>
+
+  <h2>Częste pytania</h2>
+  <p><strong>Czy moje dane są bezpieczne?</strong><br>
+  Tak — Kajet działa w całości offline i nie wysyła żadnych danych na zewnętrzne
+  serwery. Więcej informacji znajdziesz w
+  <a href="privacy.html">polityce prywatności</a>.</p>
+
+  <p><strong>Jak zgłosić błąd lub zaproponować funkcję?</strong><br>
+  Najprościej mailowo — opisz, co się dzieje (najlepiej z krótkim opisem kroków, po
+  których pojawia się problem), a odezwiemy się z odpowiedzią.</p>
+
+  <p><strong>Czy aplikacja wymaga konta?</strong><br>
+  Nie, Kajet nie wymaga logowania ani zakładania konta — wszystko działa lokalnie na
+  Twoim urządzeniu.</p>
+</body>
+</html>
