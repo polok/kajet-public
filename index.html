@@ -1,122 +1,28 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Polityka prywatności</title>
-<style>
-  :root {
-    color-scheme: light dark;
-    --bg: #F3F2F9;
-    --surface: #FFFFFF;
-    --ink: #18162C;
-    --ink-soft: #6C6987;
-    --accent: #4F46E5;
-    --border: #E4E1F1;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #131223;
-      --surface: #1C1B30;
-      --ink: #F5F4FB;
-      --ink-soft: #A6A3BE;
-      --accent: #8B85F5;
-      --border: #2C2A45;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 24px 20px 48px;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-    font-size: 15.5px;
-    line-height: 1.55;
-    -webkit-text-size-adjust: 100%;
-  }
-  h1 {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    margin: 0 0 4px;
-  }
-  .updated {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    margin: 0 0 24px;
-  }
-  h2 {
-    font-size: 16px;
-    font-weight: 800;
-    margin: 28px 0 8px;
-  }
-  p, li { color: var(--ink); }
-  p { margin: 0 0 12px; }
-  ul { margin: 0 0 12px; padding-left: 20px; }
-  li { margin-bottom: 6px; }
-  .callout {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    margin: 0 0 24px;
-  }
-  .callout strong { color: var(--accent); }
-  a { color: var(--accent); }
-</style>
+<title>Kajet</title>
+<meta name="description" content="Kajet: a student planner for iPhone. Choose your language.">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+(function(){
+  var map={pl:'pl',en:'en',de:'de',fr:'fr',es:'es',it:'it',ja:'ja',zh:'zh'};
+  var list=navigator.languages||[navigator.language||'en'];
+  var folder='en';
+  for(var i=0;i<list.length;i++){var c=String(list[i]).toLowerCase().split('-')[0];if(map[c]){folder=map[c];break;}}
+  location.replace(folder+'/index.html');
+})();
+</script>
 </head>
 <body>
-  <h1>Polityka prywatności</h1>
-  <p class="updated">Ostatnia aktualizacja: 21 września 2026</p>
-
-  <div class="callout">
-    <strong>Najkrócej mówiąc:</strong> Kajet działa w całości offline. Nie wysyłamy, nie zbieramy
-    i nie sprzedajemy Twoich danych — nic, co wpiszesz do aplikacji, nie opuszcza Twojego urządzenia.
-  </div>
-
-  <h2>Jakie dane przechowuje aplikacja</h2>
-  <p>Kajet zapisuje lokalnie na Twoim urządzeniu wyłącznie dane, które sam wprowadzasz:</p>
-  <ul>
-    <li>lata szkolne i semestry,</li>
-    <li>przedmioty, oceny i kategorie ocen,</li>
-    <li>plan zajęć,</li>
-    <li>zadania domowe i sprawdziany,</li>
-    <li>ustawienia aplikacji (np. wygląd jasny/ciemny).</li>
-  </ul>
-  <p>Dane są przechowywane w lokalnej bazie danych na urządzeniu. Jeśli masz włączone kopie
-  zapasowe iCloud lub iTunes dla tego urządzenia, dane mogą trafić do Twojej własnej kopii
-  zapasowej — to mechanizm systemu iOS, nie coś, co aplikacja robi samodzielnie.</p>
-
-  <h2>Czy aplikacja łączy się z internetem</h2>
-  <p>Nie. Kajet nie wysyła żadnych danych na żadne serwery, nie korzysta z analityki, reklam ani
-  usług firm trzecich. Aplikacja działa w pełni offline i nie wymaga konta ani logowania.</p>
-
-  <h2>Powiadomienia</h2>
-  <p>Jeśli włączysz powiadomienia (np. przypomnienia o sprawdzianach i zadaniach), są one
-  planowane lokalnie przez system iOS na podstawie danych zapisanych w aplikacji. Nie są wysyłane
-  przez internet.</p>
-
-  <h2>Udostępnianie danych</h2>
-  <p>Nie udostępniamy żadnych danych osobom ani firmom trzecim — po prostu dlatego, że nigdzie
-  ich nie wysyłamy.</p>
-
-  <h2>Usunięcie danych</h2>
-  <p>Usunięcie aplikacji z urządzenia usuwa również wszystkie zapisane w niej dane. Możesz też
-  usuwać pojedyncze przedmioty, oceny, zadania i sprawdziany bezpośrednio w aplikacji, w
-  dowolnym momencie.</p>
-
-  <h2>Dzieci</h2>
-  <p>Kajet nie zbiera żadnych danych, więc może być używany przez uczniów w każdym wieku bez
-  dodatkowych obaw o prywatność.</p>
-
-  <h2>Zmiany w polityce prywatności</h2>
-  <p>Jeśli kiedykolwiek zmienimy sposób działania aplikacji w sposób wpływający na prywatność,
-  zaktualizujemy ten dokument i datę na górze strony.</p>
-
-  <h2>Kontakt</h2>
-  <p>Pytania dotyczące prywatności możesz kierować na adres:
-  <a href="mailto:kontakt@ideaapps.io">kontakt@ideaapps.io</a>.</p>
+<div class="wrap">
+<nav><a class="brand" href="index.html"><img src="assets/icon.png" alt="">Kajet</a></nav>
+<h1>Kajet</h1>
+<p class="lead">Polski · English · Deutsch · Français · Español · Italiano · 日本語 · 简体中文</p>
+<div class="pick"><a href="pl/index.html" hreflang="pl" lang="pl">Polski<small>Strona główna</small></a><a href="en/index.html" hreflang="en" lang="en">English<small>Home</small></a><a href="de/index.html" hreflang="de" lang="de">Deutsch<small>Startseite</small></a><a href="fr/index.html" hreflang="fr" lang="fr">Français<small>Accueil</small></a><a href="es/index.html" hreflang="es" lang="es">Español<small>Inicio</small></a><a href="it/index.html" hreflang="it" lang="it">Italiano<small>Home</small></a><a href="ja/index.html" hreflang="ja" lang="ja">日本語<small>ホーム</small></a><a href="zh/index.html" hreflang="zh-Hans" lang="zh-Hans">简体中文<small>首页</small></a></div>
+</div>
 </body>
 </html>
