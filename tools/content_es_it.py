@@ -18,7 +18,7 @@ ES = dict(
             ("Widget, Live Activity, Siri", "La próxima clase en la pantalla de inicio y la de bloqueo. Pregunta a Siri por tu próxima clase, los deberes de hoy o tu media, o añade una nota por voz."),
             ("Privada por diseño", "Sin cuenta, sin anuncios y con tus datos en tu iPhone. Los consejos de IA opcionales funcionan por completo en el dispositivo con Apple Intelligence."),
         ],
-        note="Pensada para el sistema escolar y universitario polaco (notas del 1 al 6, escala universitaria de 2,0 a 5,0, ECTS), pero útil en cualquier lugar. Disponible en inglés, polaco, alemán, francés, español, italiano, japonés y chino. Para iPhone con iOS 17 o posterior; los consejos de IA requieren iOS 26 y Apple Intelligence.",
+        note="Pensada para el sistema escolar y universitario polaco (notas del 1 al 6, escala universitaria de 2,0 a 5,0, ECTS), pero útil en cualquier lugar. Para iPhone con iOS 17 o posterior; los consejos de IA requieren iOS 26 y Apple Intelligence.",
     ),
     privacy=dict(
         title="Política de privacidad", description="Cómo trata Kajet tus datos: se quedan en tu dispositivo, con estadísticas de uso anónimas e informes de fallos.",
@@ -94,7 +94,7 @@ IT = dict(
             ("Widget, Live Activity, Siri", "La prossima lezione nella schermata Home e in quella di blocco. Chiedi a Siri la prossima lezione, i compiti di oggi o la tua media, oppure aggiungi un voto a voce."),
             ("Privata per progetto", "Senza account, senza pubblicità e con i dati sul tuo iPhone. I suggerimenti IA facoltativi funzionano interamente sul dispositivo con Apple Intelligence."),
         ],
-        note="Pensata per il sistema scolastico e universitario polacco (voti da 1 a 6, scala universitaria da 2,0 a 5,0, ECTS), ma utilizzabile ovunque. Disponibile in inglese, polacco, tedesco, francese, spagnolo, italiano, giapponese e cinese. Per iPhone con iOS 17 o successivo; i suggerimenti IA richiedono iOS 26 e Apple Intelligence.",
+        note="Pensata per il sistema scolastico e universitario polacco (voti da 1 a 6, scala universitaria da 2,0 a 5,0, ECTS), ma utilizzabile ovunque. Per iPhone con iOS 17 o successivo; i suggerimenti IA richiedono iOS 26 e Apple Intelligence.",
     ),
     privacy=dict(
         title="Informativa sulla privacy", description="Come Kajet tratta i tuoi dati: restano sul tuo dispositivo, con statistiche d’uso anonime e rapporti sugli arresti anomali.",

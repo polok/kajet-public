@@ -21,7 +21,7 @@ EN = dict(
             ("Widget, Live Activity, Siri", "The next lesson on your Home Screen and Lock Screen. Ask Siri for your next lesson, today's homework or your average, or add a grade by voice."),
             ("Private by design", "No account, no ads, and your data stays on your iPhone. The optional AI tips run entirely on the device with Apple Intelligence."),
         ],
-        note="Made with the Polish school and university system in mind (grades 1–6, the 2.0–5.0 university scale, ECTS), but usable anywhere. Available in English, Polish, German, French, Spanish, Italian, Japanese and Chinese. For iPhone, iOS 17 or later; the AI tips need iOS 26 and Apple Intelligence.",
+        note="Made with the Polish school and university system in mind (grades 1–6, the 2.0–5.0 university scale, ECTS), but usable anywhere. For iPhone, iOS 17 or later; the AI tips need iOS 26 and Apple Intelligence.",
     ),
     privacy=dict(
         title="Privacy policy", description="How Kajet handles your data: it stays on your device, with anonymous usage statistics and crash reports.",
@@ -98,7 +98,7 @@ PL = dict(
             ("Widżet, Live Activity, Siri", "Najbliższa lekcja na ekranie głównym i ekranie blokady. Zapytaj Siri o następną lekcję, zadania na dziś lub średnią albo dodaj ocenę głosem."),
             ("Prywatność z założenia", "Bez konta i reklam, a dane zostają na Twoim iPhonie. Opcjonalne podpowiedzi AI działają w całości na urządzeniu dzięki Apple Intelligence."),
         ],
-        note="Stworzony z myślą o polskiej szkole i uczelni (oceny 1–6, skala 2,0–5,0, ECTS), ale przydatny wszędzie. Dostępny po polsku, angielsku, niemiecku, francusku, hiszpańsku, włosku, japońsku i chińsku. Na iPhone'a z iOS 17 lub nowszym; podpowiedzi AI wymagają iOS 26 i Apple Intelligence.",
+        note="Stworzony z myślą o polskiej szkole i uczelni (oceny 1–6, skala 2,0–5,0, ECTS), ale przydatny wszędzie. Na iPhone'a z iOS 17 lub nowszym; podpowiedzi AI wymagają iOS 26 i Apple Intelligence.",
     ),
     privacy=dict(
         title="Polityka prywatności", description="Jak Kajet traktuje Twoje dane: zostają na urządzeniu, a do nas trafiają tylko anonimowe statystyki użycia i raporty o błędach.",

@@ -18,7 +18,7 @@ DE = dict(
             ("Widget, Live Activity, Siri", "Die nächste Stunde auf dem Home- und dem Sperrbildschirm. Frag Siri nach der nächsten Stunde, den Hausaufgaben für heute oder deinem Durchschnitt, oder füge per Sprache eine Note hinzu."),
             ("Privat von Grund auf", "Kein Konto, keine Werbung, und deine Daten bleiben auf deinem iPhone. Die optionalen KI-Tipps laufen komplett auf dem Gerät mit Apple Intelligence."),
         ],
-        note="Entwickelt mit Blick auf das polnische Schul- und Hochschulsystem (Noten 1–6, die Hochschulskala 2,0–5,0, ECTS), aber überall nutzbar. Verfügbar auf Englisch, Polnisch, Deutsch, Französisch, Spanisch, Italienisch, Japanisch und Chinesisch. Für das iPhone mit iOS 17 oder neuer; die KI-Tipps brauchen iOS 26 und Apple Intelligence.",
+        note="Entwickelt mit Blick auf das polnische Schul- und Hochschulsystem (Noten 1–6, die Hochschulskala 2,0–5,0, ECTS), aber überall nutzbar. Für das iPhone mit iOS 17 oder neuer; die KI-Tipps brauchen iOS 26 und Apple Intelligence.",
     ),
     privacy=dict(
         title="Datenschutzerklärung", description="Wie Kajet mit deinen Daten umgeht: Sie bleiben auf deinem Gerät, dazu kommen anonyme Nutzungsstatistiken und Absturzberichte.",
@@ -94,7 +94,7 @@ FR = dict(
             ("Widget, Live Activity, Siri", "Le prochain cours sur l’écran d’accueil et l’écran verrouillé. Demande à Siri ton prochain cours, les devoirs du jour ou ta moyenne, ou ajoute une note à la voix."),
             ("Confidentialité par conception", "Pas de compte, pas de publicité, et tes données restent sur ton iPhone. Les conseils IA facultatifs fonctionnent entièrement sur l’appareil avec Apple Intelligence."),
         ],
-        note="Pensée pour le système scolaire et universitaire polonais (notes de 1 à 6, échelle universitaire de 2,0 à 5,0, ECTS), mais utilisable partout. Disponible en anglais, polonais, allemand, français, espagnol, italien, japonais et chinois. Pour iPhone avec iOS 17 ou plus ; les conseils IA demandent iOS 26 et Apple Intelligence.",
+        note="Pensée pour le système scolaire et universitaire polonais (notes de 1 à 6, échelle universitaire de 2,0 à 5,0, ECTS), mais utilisable partout. Pour iPhone avec iOS 17 ou plus ; les conseils IA demandent iOS 26 et Apple Intelligence.",
     ),
     privacy=dict(
         title="Politique de confidentialité", description="Comment Kajet traite tes données : elles restent sur ton appareil, avec des statistiques d’usage anonymes et des rapports de plantage.",
