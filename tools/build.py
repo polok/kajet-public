@@ -101,7 +101,8 @@ footer{margin-top:46px;color:var(--soft);font-size:13px;display:flex;gap:6px 18p
 .home{--shadow:0 24px 50px -22px rgba(36,31,115,.38)}
 .hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:8px 0 64px}
 .hero>*{min-width:0}
-.hero h1{font-size:clamp(34px,4.8vw,54px);line-height:1.07;letter-spacing:-.02em;margin:0 0 18px}
+.hero h1{font-size:clamp(32px,4.4vw,50px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;color:var(--ink)}
+.tag{display:inline-block;margin:0 0 18px;padding:6px 12px;border-radius:999px;background:var(--tint);color:var(--accent);font-weight:700;font-size:13px}
 .hero .lead{font-size:19px;max-width:30em;margin:0 0 28px}
 .hero .btns{margin-bottom:22px}
 .hero .btn{padding:14px 26px}
@@ -241,7 +242,7 @@ def index_page(lang: dict) -> str:
         f'<li><a href="../{l["folder"]}/index.html" hreflang="{l["code"]}" lang="{l["html_lang"]}"'
         f'{" aria-current=page" if l is lang else ""}>{esc(l["label"])}</a></li>' for l in LANGS)
     return (head(lang, "index.html", c["title"], c["description"], body="home") + nav(lang, "index.html") +
-            f'<header class="hero"><div><h1>{esc(c["h1"])}</h1><p class="lead">{esc(c["lead"])}</p>\n'
+            f'<header class="hero"><div><span class="tag">{esc(ui["tag"])}</span><h1>{esc(c["h1"])}</h1><p class="lead">{esc(c["lead"])}</p>\n'
             f'<div class="btns"><a class="btn" href="{APP_STORE}">{esc(c["download"])}</a>'
             f'<a class="btn ghost" href="#features">{esc(feats["see"])}</a></div>'
             f'<ul class="facts">{chips}</ul></div>'

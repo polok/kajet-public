@@ -4,6 +4,7 @@ The numbers of the stat strip (13 / 0 / 100%) are fixed in build.py; `stats` hol
 
 UI = {
     "en": dict(
+        tag="Student planner for iPhone",
         chips=["No account", "No ads", "Your data stays on your iPhone"],
         stats=["languages", "accounts and ads", "of your data on your iPhone"],
         features_title="Everything for school and university, in one app",
@@ -15,6 +16,7 @@ UI = {
         screens_title="More screens",
     ),
     "pl": dict(
+        tag="Planer ucznia i studenta na iPhone’a",
         chips=["Bez konta", "Bez reklam", "Dane zostają na Twoim iPhonie"],
         stats=["języków", "kont i reklam", "danych na Twoim iPhonie"],
         features_title="Wszystko do szkoły i na studia w jednej aplikacji",
@@ -26,6 +28,7 @@ UI = {
         screens_title="Więcej ekranów",
     ),
     "de": dict(
+        tag="Schulplaner für das iPhone",
         chips=["Kein Konto", "Keine Werbung", "Deine Daten bleiben auf dem iPhone"],
         stats=["Sprachen", "Konten und Werbung", "deiner Daten auf dem iPhone"],
         features_title="Alles für Schule und Uni in einer App",
@@ -37,6 +40,7 @@ UI = {
         screens_title="Weitere Bildschirme",
     ),
     "fr": dict(
+        tag="Planner d’étudiant pour iPhone",
         chips=["Sans compte", "Sans publicité", "Tes données restent sur ton iPhone"],
         stats=["langues", "compte et publicité", "de tes données sur ton iPhone"],
         features_title="Tout pour l’école et la fac, dans une seule app",
@@ -48,6 +52,7 @@ UI = {
         screens_title="Plus d’écrans",
     ),
     "es": dict(
+        tag="Agenda de estudiante para iPhone",
         chips=["Sin cuenta", "Sin anuncios", "Tus datos se quedan en tu iPhone"],
         stats=["idiomas", "cuentas y anuncios", "de tus datos en tu iPhone"],
         features_title="Todo para el colegio y la universidad, en una sola app",
@@ -59,6 +64,7 @@ UI = {
         screens_title="Más pantallas",
     ),
     "it": dict(
+        tag="Agenda dello studente per iPhone",
         chips=["Nessun account", "Nessuna pubblicità", "I tuoi dati restano sul tuo iPhone"],
         stats=["lingue", "account e pubblicità", "dei tuoi dati sul tuo iPhone"],
         features_title="Tutto per la scuola e l’università, in un’unica app",
@@ -70,6 +76,7 @@ UI = {
         screens_title="Altre schermate",
     ),
     "ja": dict(
+        tag="iPhone向け学生プランナー",
         chips=["アカウント不要", "広告なし", "データはiPhoneの中だけ"],
         stats=["言語", "アカウントと広告", "のデータはiPhone内に保存"],
         features_title="学校も大学も、ひとつのアプリで",
@@ -81,6 +88,7 @@ UI = {
         screens_title="そのほかの画面",
     ),
     "zh": dict(
+        tag="适用于 iPhone 的学生规划应用",
         chips=["无需账号", "无广告", "数据留在你的 iPhone 上"],
         stats=["种语言", "账号与广告", "的数据保存在 iPhone 上"],
         features_title="中学、大学，一个 App 全搞定",
@@ -92,6 +100,7 @@ UI = {
         screens_title="更多界面",
     ),
     "sv": dict(
+        tag="Skolplanerare för iPhone",
         chips=["Inget konto", "Inga annonser", "Dina data stannar på din iPhone"],
         stats=["språk", "konton och annonser", "av dina data på din iPhone"],
         features_title="Allt för skola och universitet i en app",
@@ -103,6 +112,7 @@ UI = {
         screens_title="Fler skärmar",
     ),
     "no": dict(
+        tag="Skoleplanlegger for iPhone",
         chips=["Ingen konto", "Ingen reklame", "Dataene dine blir på iPhonen din"],
         stats=["språk", "kontoer og reklame", "av dataene dine på iPhonen"],
         features_title="Alt for skole og universitet i én app",
@@ -114,6 +124,7 @@ UI = {
         screens_title="Flere skjermer",
     ),
     "cs": dict(
+        tag="Školní plánovač pro iPhone",
         chips=["Bez účtu", "Bez reklam", "Tvá data zůstávají v iPhonu"],
         stats=["jazyků", "účtů a reklam", "tvých dat v tvém iPhonu"],
         features_title="Vše pro školu i univerzitu v jedné aplikaci",
@@ -125,6 +136,7 @@ UI = {
         screens_title="Další obrazovky",
     ),
     "sk": dict(
+        tag="Školský plánovač pre iPhone",
         chips=["Bez účtu", "Bez reklám", "Tvoje dáta ostávajú v iPhone"],
         stats=["jazykov", "účtov a reklám", "tvojich dát v tvojom iPhone"],
         features_title="Všetko pre školu aj univerzitu v jednej aplikácii",
@@ -136,6 +148,7 @@ UI = {
         screens_title="Ďalšie obrazovky",
     ),
     "pt": dict(
+        tag="Planeador escolar para iPhone",
         chips=["Sem conta", "Sem anúncios", "Os teus dados ficam no teu iPhone"],
         stats=["idiomas", "contas e anúncios", "dos teus dados no teu iPhone"],
         features_title="Tudo para a escola e a universidade, numa só app",
