@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Builds the static site: <lang>/{index,privacy,support}.html for thirteen languages, the language
 pickers at the root, the stylesheet and the images. Texts live in tools/content_*.py, the landing page's
-feature copy in tools/features_data.py (tools/sync_features.py) and its short UI strings in tools/ui.py.
+feature list in tools/features_short.py and its short UI strings in tools/ui.py.
 
-Usage (from the repo root):  python3 tools/build.py [--shots ../kajet-ios/build/screenshots/raw]
+Usage (from the repo root):  python3 tools/build.py [--shots ../kajet-ios/fastlane/screenshots]
 Needs Pillow only for the screenshots (`python3 -m pip install Pillow`); without --shots they are kept as they are.
 """
 import html
@@ -19,41 +19,46 @@ from content_ja_zh import JA, ZH  # noqa: E402
 from content_cs_sk import CS, SK  # noqa: E402
 from content_pt import PT  # noqa: E402
 from content_sv_no import NO, SV  # noqa: E402
-from features_data import DATA as FEATURES  # noqa: E402
+from features_short import FEATURES  # noqa: E402
 from ui import UI  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 LANGS = [PL, EN, DE, FR, ES, IT, JA, ZH, SV, NO, CS, SK, PT]
 MAIL = "kontakt@ideaapps.io"
 APP_STORE = "https://apps.apple.com/app/id6814474214"
-# raw capture folder (kajet-ios/build/screenshots/raw) per site folder
+# framed store screenshot folder (kajet-ios/fastlane/screenshots) per site folder
 SHOT_FOLDERS = {"pl": "pl", "en": "en-US", "de": "de-DE", "fr": "fr-FR", "es": "es-ES", "it": "it", "ja": "ja",
                 "zh": "zh-Hans", "sv": "sv", "no": "no", "cs": "cs", "sk": "sk", "pt": "pt-PT"}
-SCENES = FEATURES["scenes"]
-SHOT_W, SHOT_H = 720, 1565  # the 1320x2868 capture, scaled (shown at about a third of that: sharp on retina)
-HERO_SCREENS = ("dashboard", "plan")
-RAIL_SCREENS = ["subjects", "tasks", "stats", "study"]
-USED_SCREENS = list(HERO_SCREENS) + RAIL_SCREENS
-# one card per section of the App Store description, in its order: icon and accent color
-SECTION_STYLE = [
-    ("#F59E0B", '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
-    ("#0EA5E9", '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
-    ("#DB2777", '<path d="M4 20v-7M10 20V5M16 20v-10M22 20H2"/>'),
-    ("#4F46E5", '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9v6"/>'),
-    ("#16A34A", '<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 12l2.5 2.5 4.5-5"/>'),
-    ("#7C3AED", '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>'),
-    ("#E11D48", '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>'),
-    ("#0D9488", '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>'),
-    ("#6366F1", '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>'),
-    ("#475569", '<rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 018 0v3"/>'),
+# the store posters the page shows, cropped to 4:5 (headline and the top of the phone): hero pair, then a row of three
+HERO_SHOTS = ("01_dashboard", "06_plan")
+ROW_SHOTS = ("07_subjects", "02_study", "03_stats")
+SHOT_W, SHOT_H = 640, 800
+GROUP_COLORS = ["#0EA5E9", "#DB2777", "#16A34A", "#7C3AED"]
+ICONS = [  # one per feature, in the order of features_short.py
+    '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    '<path d="M7 7h12l-3-3M17 17H5l3 3"/>',
+    '<circle cx="12" cy="7" r="3"/><path d="M6 21v-3a6 6 0 0112 0v3"/>',
+    '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><circle cx="17" cy="17" r="4"/>',
+    '<path d="M4 20v-7M10 20V5M16 20v-10M22 20H2"/>',
+    '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+    '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
+    '<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+    '<path d="M6 16V11a6 6 0 0112 0v5l2 2H4l2-2z"/><path d="M10 21h4"/>',
+    '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>',
+    '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/>',
+    '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>',
+    '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
 ]
 
 STYLE = """\
 @font-face{font-family:"Plus Jakarta Sans";font-weight:400;font-display:swap;src:url(fonts/PlusJakartaSans-Regular.ttf) format("truetype")}
 @font-face{font-family:"Plus Jakarta Sans";font-weight:700;font-display:swap;src:url(fonts/PlusJakartaSans-Bold.ttf) format("truetype")}
 @font-face{font-family:"Plus Jakarta Sans";font-weight:800;font-display:swap;src:url(fonts/PlusJakartaSans-ExtraBold.ttf) format("truetype")}
-:root{color-scheme:light dark;--bg:#F3F2F9;--card:#FFFFFF;--ink:#18162C;--soft:#6C6987;--accent:#4F46E5;--border:#E4E1F1;--on:#FFFFFF;--tint:#ECEAFB;--glow:rgba(124,58,237,.28)}
-@media (prefers-color-scheme:dark){:root{--bg:#131223;--card:#1C1B30;--ink:#F5F4FB;--soft:#A6A3BE;--accent:#8B85F5;--border:#2C2A45;--on:#131223;--tint:#26244A;--glow:rgba(139,133,245,.3)}}
+:root{color-scheme:light dark;--bg:#F3F2F9;--card:#FFFFFF;--ink:#18162C;--soft:#6C6987;--accent:#4F46E5;--border:#E4E1F1;--on:#FFFFFF;--tint:#ECEAFB}
+@media (prefers-color-scheme:dark){:root{--bg:#131223;--card:#1C1B30;--ink:#F5F4FB;--soft:#A6A3BE;--accent:#8B85F5;--border:#2C2A45;--on:#131223;--tint:#26244A}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","PingFang SC","Noto Sans CJK SC","Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.6}
@@ -92,60 +97,46 @@ footer{margin-top:46px;color:var(--soft);font-size:13px;display:flex;gap:6px 18p
 .pick{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:24px 0}
 .pick a{display:block;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;font-weight:700}
 .pick a:hover{border-color:var(--accent);color:var(--accent)}.pick small{display:block;color:var(--soft);font-weight:600;font-size:13px}
-.home .wrap{max-width:1120px}
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;margin:8px 0 56px}
-.hero h1{font-size:clamp(32px,4.4vw,52px);line-height:1.08;margin-bottom:18px}
-.hero .lead{font-size:20px;max-width:560px}
-.hero .btns{margin-bottom:22px;flex-wrap:nowrap}.hero .btn{padding:13px 22px;white-space:nowrap}
-.chips{display:flex;gap:8px 10px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
-.chips li{margin:0;padding:6px 13px 6px 11px;border-radius:999px;background:var(--tint);color:var(--accent);font-weight:700;font-size:14px;display:flex;align-items:center;gap:7px}
-.chips li::before{content:"✓";font-weight:800}
-.hero-art{position:relative;height:560px}
-.hero-art::before{content:"";position:absolute;inset:6% 4% 4%;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent 72%);filter:blur(10px)}
-.hero-art .phone{position:absolute;width:262px}
-.hero-art .p1{left:3%;bottom:0;transform:rotate(-4deg);z-index:2}
-.hero-art .p2{right:2%;top:0;transform:rotate(5deg)}
-.phone{position:relative;padding:8px;border-radius:44px;background:linear-gradient(150deg,#34344a,#0b0b12);box-shadow:0 30px 60px -18px rgba(36,31,115,.45),0 0 0 1px rgba(255,255,255,.07) inset}
-.phone::before{content:"";position:absolute;z-index:1;top:17px;left:50%;width:28%;height:20px;margin-left:-14%;border-radius:20px;background:#05050a}
-.phone img{display:block;width:100%;height:auto;border-radius:36px;background:var(--card)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 72px}
-.stat{padding:22px 24px;border-radius:22px;background:var(--card);border:1px solid var(--border);text-align:center}
-.stat b{display:block;font-size:clamp(34px,5vw,48px);line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--accent)}
-.stat span{color:var(--soft);font-weight:700;font-size:15px}
-.sec-title{font-size:clamp(26px,4vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.015em;text-align:center;margin:0 auto 40px;max-width:760px;text-wrap:balance}
-.feats{column-count:2;column-gap:18px;margin:0 0 72px}
-.fcard{break-inside:avoid;margin:0 0 18px;padding:26px 26px 14px;border-radius:24px;background:var(--card);border:1px solid var(--border)}
-.fhead{display:flex;align-items:center;gap:14px;margin:0 0 16px}
-.ico{flex:none;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--tint);background:color-mix(in srgb,var(--c) 15%,transparent)}
-.ico svg{width:24px;height:24px;stroke:var(--c);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.fcard h3{margin:0;font-size:15px;line-height:1.3;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-.ticks{list-style:none;padding:0;margin:0}
-.ticks li{position:relative;padding:0 0 0 30px;margin:0 0 13px;color:var(--soft);font-size:16px;line-height:1.5}
-.ticks li b{color:var(--ink);font-weight:700}
-.ticks li::before{content:"✓";position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:50%;background:var(--tint);background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.screens{margin:0 0 72px}
-.rail{display:flex;gap:22px;overflow-x:auto;padding:6px 20px 26px;margin:0 -20px;scroll-snap-type:x mandatory;justify-content:safe center}
-.rail figure{flex:none;width:220px;margin:0;scroll-snap-align:center;text-align:center}.rail figcaption{margin-top:14px;font-weight:700;font-size:15px;line-height:1.35;color:var(--ink);text-wrap:balance}
-.rail .phone{width:100%}
-.langs-sec{text-align:center;margin:0 0 72px}
-.langs-sec p{color:var(--soft);max-width:560px;margin:-18px auto 26px}
-.pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0;padding:0;list-style:none}
+.home .wrap{max-width:1080px}
+.home{--shadow:0 24px 50px -22px rgba(36,31,115,.38)}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:8px 0 64px}
+.hero>*{min-width:0}
+.hero h1{font-size:clamp(34px,4.8vw,54px);line-height:1.07;letter-spacing:-.02em;margin:0 0 18px}
+.hero .lead{font-size:19px;max-width:30em;margin:0 0 28px}
+.hero .btns{margin-bottom:22px}
+.hero .btn{padding:14px 26px}
+.facts{display:flex;gap:6px 18px;flex-wrap:wrap;color:var(--soft);font-size:14px;font-weight:600;margin:0;padding:0;list-style:none}
+.facts li{margin:0}.facts li::before{content:"✓ ";color:var(--accent);font-weight:800}
+.posters{position:relative;aspect-ratio:1/1;max-width:100%}
+.posters img{position:absolute;width:62%;height:auto;border-radius:26px;box-shadow:var(--shadow)}
+.posters .p1{left:0;top:10%;transform:rotate(-3deg);z-index:2}
+.posters .p2{right:0;top:0;transform:rotate(4deg)}
+.sec-title{font-size:clamp(26px,3.6vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.015em;margin:0 0 30px;text-wrap:balance}
+.band{padding-top:72px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:0}
+.grp{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:26px 26px 12px}
+.grp h3{margin:0 0 18px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);font-weight:800}
+.grp ul{list-style:none;margin:0;padding:0}
+.grp li{display:flex;gap:14px;padding:13px 0;margin:0;border-top:1px solid var(--border)}
+.grp li:first-child{border-top:0;padding-top:0}
+.ico{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--tint);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.ico svg{width:21px;height:21px;fill:none;stroke:var(--c);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.grp b{display:block;font-size:16px;line-height:1.3}
+.grp p{margin:2px 0 0;color:var(--soft);font-size:14.5px;line-height:1.45}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.trio img{width:100%;height:auto;border-radius:24px;box-shadow:var(--shadow);display:block}
+.langs-sec p{color:var(--soft);margin:-14px 0 24px;max-width:36em}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .pills li{margin:0}
-.pills a{display:block;padding:9px 18px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+.pills a{display:block;padding:8px 16px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;font-weight:700;font-size:14.5px}
 .pills a:hover,.pills a[aria-current]{border-color:var(--accent);color:var(--accent);background:var(--tint)}
-.cta{border-radius:32px;padding:clamp(32px,6vw,64px) 24px;text-align:center;color:#fff;background:linear-gradient(135deg,#4F46E5,#7C3AED 60%,#DB2777);margin:0 0 30px;position:relative;overflow:hidden}
-.cta::after{content:"";position:absolute;inset:auto -10% -60% auto;width:60%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.1)}
-.cta h2{font-size:clamp(26px,4.4vw,40px);line-height:1.15;margin:0 0 10px;font-weight:800;letter-spacing:-.015em;position:relative}
-.cta p{margin:0 0 24px;color:rgba(255,255,255,.88);font-size:18px;position:relative}
-.cta .btn{background:#fff;color:#241F73;position:relative}
-.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.js .reveal.in{opacity:1;transform:none}
-@media (max-width:860px){
-  .hero .btns{flex-wrap:wrap}
-  .hero{grid-template-columns:1fr;gap:28px}.hero-art{height:470px;max-width:440px;margin:0 auto;width:100%}.hero-art .phone{width:215px}
-  .feats{column-count:1}
-  .stats{grid-template-columns:1fr}
-  .rail{justify-content:flex-start}
+.cta{margin:72px 0 28px;border-radius:30px;padding:clamp(32px,6vw,56px);background:linear-gradient(135deg,#4F46E5,#6D3FD8);color:#fff;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cta h2{margin:0 0 4px;color:#fff;font-size:clamp(24px,3.4vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.015em}
+.cta p{margin:0;color:rgba(255,255,255,.86)}
+.cta .btn{background:#fff;color:#2A2380}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:28px}.posters{max-width:420px;margin:0 auto;width:100%}
+  .grid{grid-template-columns:1fr}.trio{grid-template-columns:1fr;max-width:420px;margin-inline:auto}
 }
 """
 
@@ -187,7 +178,7 @@ def head(lang: dict, page: str, title: str, description: str, depth: str = "../"
 <link rel="stylesheet" href="{depth}assets/style.css">
 {alternates}
 <link rel="alternate" hreflang="x-default" href="../en/{page}">
-{HEAD_JS if body == "home" else ""}</head>
+</head>
 <body{f' class="{body}"' if body else ''}>
 <div class="wrap">
 """
@@ -204,20 +195,10 @@ def nav(lang: dict, page: str) -> str:
             f'<details class="langs"><summary>{esc(lang["label"])}</summary><ul>{items}</ul></details></nav>\n')
 
 
-REVEAL_SCRIPT = """<script>
-(function(){if(!document.documentElement.classList.contains('js'))return;
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px'});
-document.querySelectorAll('.reveal').forEach(function(e){io.observe(e)});})();
-</script>
-"""
-HEAD_JS = """<script>(function(){if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js')})()</script>
-"""
-
-
-def footer(lang: dict, script: str = "") -> str:
+def footer(lang: dict) -> str:
     return (f'<footer><span>{lang["footer_rights"]}</span>'
             f'<a href="privacy.html">{esc(lang["nav_privacy"])}</a><a href="support.html">{esc(lang["nav_support"])}</a></footer>\n'
-            f"</div>\n{script}</body>\n</html>\n")
+            "</div>\n</body>\n</html>\n")
 
 
 def blocks_html(lang: dict, blocks) -> str:
@@ -237,55 +218,40 @@ def blocks_html(lang: dict, blocks) -> str:
     return "\n".join(out) + "\n"
 
 
-def bold_lead(text: str) -> str:
-    """"Label: detail" -> the label in bold, when it is short enough to be one."""
-    head, sep, tail = text.partition("：" if "：" in text[:30] else ":")
-    if sep and 2 <= len(head) <= 34 and tail.strip():
-        return f"<b>{esc(head)}{sep}</b>{esc(tail)}"
-    return esc(text)
-
-
-def phone(lang: dict, scene: str, alt: str, lazy: bool = True, cls: str = "") -> str:
+def poster(lang: dict, shot: str, alt: str, cls: str = "", lazy: bool = True) -> str:
     loading = ' loading="lazy"' if lazy else ""
-    return (f'<div class="phone{" " + cls if cls else ""}"><img src="../assets/shots/{lang["folder"]}-{scene}.jpg"'
-            f' alt="{html.escape(alt)}" width="{SHOT_W}" height="{SHOT_H}"{loading}></div>')
+    return (f'<img{f" class={chr(34)}{cls}{chr(34)}" if cls else ""} src="../assets/shots/{lang["folder"]}-{shot}.jpg"'
+            f' alt="{html.escape(alt)}" width="{SHOT_W}" height="{SHOT_H}"{loading}>')
 
 
 def index_page(lang: dict) -> str:
     c = lang["index"]
     ui = UI[lang["folder"]]
-    feats = FEATURES["langs"][lang["folder"]]
-    colors = FEATURES["colors"]
-    head_html = head(lang, "index.html", c["title"], c["description"], body="home")
-    hero_art = (phone(lang, HERO_SCREENS[0], feats["headlines"][0], lazy=False, cls="p1") +
-                phone(lang, HERO_SCREENS[1], feats["headlines"][1], lazy=False, cls="p2"))
+    feats = FEATURES[lang["folder"]]
     chips = "".join(f"<li>{esc(t)}</li>" for t in ui["chips"])
-    stats = "".join(f'<div class="stat"><b>{n}</b><span>{esc(t)}</span></div>'
-                    for n, t in zip(("13", "0", "100%"), ui["stats"]))
-    cards = []
-    for (color, icon), (heading, bullets) in zip(SECTION_STYLE, feats["sections"]):
-        items = "".join(f"<li>{bold_lead(b)}</li>" for b in bullets)
-        cards.append(
-            f'<article class="fcard" style="--c:{color}"><div class="fhead"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">{icon}</svg></span>'
-            f'<h3>{esc(heading)}</h3></div><ul class="ticks">{items}</ul></article>')
-    rail = "".join(
-        f'<figure>{phone(lang, sc, feats["headlines"][FEATURES["scenes"].index(sc)])}'
-        f'<figcaption>{esc(feats["headlines"][FEATURES["scenes"].index(sc)])}</figcaption></figure>' for sc in RAIL_SCREENS)
+    groups = []
+    for g, title in enumerate(feats["groups"]):
+        items = "".join(
+            f'<li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">{ICONS[g * 4 + i]}</svg></span>'
+            f"<div><b>{esc(t)}</b><p>{esc(d)}</p></div></li>"
+            for i, (t, d) in enumerate(feats["items"][g * 4:g * 4 + 4]))
+        groups.append(f'<section class="grp" style="--c:{GROUP_COLORS[g]}"><h3>{esc(title)}</h3><ul>{items}</ul></section>')
+    trio = "".join(poster(lang, shot, f"Kajet {i + 1}") for i, shot in enumerate(ROW_SHOTS))
     pills = "".join(
         f'<li><a href="../{l["folder"]}/index.html" hreflang="{l["code"]}" lang="{l["html_lang"]}"'
         f'{" aria-current=page" if l is lang else ""}>{esc(l["label"])}</a></li>' for l in LANGS)
-    return (head_html + nav(lang, "index.html") +
-            f'<section class="hero"><div class="hero-text"><h1>{esc(c["h1"])}</h1><p class="lead">{esc(c["lead"])}</p>\n'
+    return (head(lang, "index.html", c["title"], c["description"], body="home") + nav(lang, "index.html") +
+            f'<header class="hero"><div><h1>{esc(c["h1"])}</h1><p class="lead">{esc(c["lead"])}</p>\n'
             f'<div class="btns"><a class="btn" href="{APP_STORE}">{esc(c["download"])}</a>'
-            f'<a class="btn ghost" href="support.html">{esc(c["support_btn"])}</a></div>'
-            f'<ul class="chips">{chips}</ul></div><div class="hero-art">{hero_art}</div></section>\n'
-            f'<section class="stats">{stats}</section>\n'
-            f'<section id="features"><h2 class="sec-title">{esc(ui["features_title"])}</h2><div class="feats">' + "".join(cards) + "</div></section>\n"
-            f'<section class="screens reveal"><h2 class="sec-title">{esc(ui["screens_title"])}</h2><div class="rail">{rail}</div></section>\n'
-            f'<section class="langs-sec reveal"><h2 class="sec-title">{esc(ui["langs_title"])}</h2><p>{esc(ui["langs_text"])}</p><ul class="pills">{pills}</ul></section>\n'
-            f'<section class="cta reveal"><h2>{esc(ui["cta_title"])}</h2><p>{esc(ui["cta_text"])}</p>'
-            f'<a class="btn" href="{APP_STORE}">{esc(c["download"])}</a></section>\n'
-            f'<p class="note">{esc(c["note"])}</p>\n' + footer(lang, REVEAL_SCRIPT))
+            f'<a class="btn ghost" href="#features">{esc(feats["see"])}</a></div>'
+            f'<ul class="facts">{chips}</ul></div>'
+            f'<div class="posters">{poster(lang, HERO_SHOTS[0], "Kajet", "p1", lazy=False)}{poster(lang, HERO_SHOTS[1], "Kajet", "p2", lazy=False)}</div></header>\n'
+            f'<section id="features" class="band" style="padding-top:8px"><h2 class="sec-title">{esc(ui["features_title"])}</h2><div class="grid">' + "".join(groups) + "</div></section>\n"
+            f'<section class="band"><h2 class="sec-title">{esc(ui["screens_title"])}</h2><div class="trio">{trio}</div></section>\n'
+            f'<section class="band langs-sec"><h2 class="sec-title">{esc(ui["langs_title"])}</h2><p>{esc(ui["langs_text"])}</p><ul class="pills">{pills}</ul></section>\n'
+            f'<div class="cta"><div><h2>{esc(ui["cta_title"])}</h2><p>{esc(ui["cta_text"])}</p></div>'
+            f'<a class="btn" href="{APP_STORE}">{esc(c["download"])}</a></div>\n'
+            f'<p class="note">{esc(c["note"])}</p>\n' + footer(lang))
 
 
 def text_page(lang: dict, kind: str) -> str:
@@ -331,13 +297,15 @@ def build_shots(shots_dir: Path) -> None:
     for old in out.glob("*.jpg"):
         old.unlink()
     for folder, source in SHOT_FOLDERS.items():
-        for scene in USED_SCREENS:
-            path = shots_dir / source / f"{scene}.png"
+        for shot in HERO_SHOTS + ROW_SHOTS:
+            path = shots_dir / source / f"{shot}.png"
             if not path.exists():
                 print("missing", path)
                 continue
-            Image.open(path).convert("RGB").resize((SHOT_W, SHOT_H), Image.LANCZOS).save(
-                out / f"{folder}-{scene}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
+            im = Image.open(path).convert("RGB")
+            im = im.crop((0, 0, im.width, round(im.width * SHOT_H / SHOT_W)))
+            im.resize((SHOT_W, SHOT_H), Image.LANCZOS).save(
+                out / f"{folder}-{shot}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
 
 
 def main() -> None:
