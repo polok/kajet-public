@@ -30,15 +30,22 @@ APP_STORE = "https://apps.apple.com/app/id6814474214"
 SHOT_FOLDERS = {"pl": "pl", "en": "en-US", "de": "de-DE", "fr": "fr-FR", "es": "es-ES", "it": "it", "ja": "ja",
                 "zh": "zh-Hans", "sv": "sv", "no": "no", "cs": "cs", "sk": "sk", "pt": "pt-PT"}
 SCENES = FEATURES["scenes"]
-SHOT_W, SHOT_H = 560, 1217  # the 1320x2868 capture, scaled
-# landing page: which screen shows which section of the App Store description (index into FEATURES sections)
-SHOWCASE = [("dashboard", 0), ("plan", 1), ("subjects", 2), ("tasks", 4), ("study", 5), ("stats", 6)]
-MORE_SCREENS = ["history", "todo", "exams", "quick"]
+SHOT_W, SHOT_H = 720, 1565  # the 1320x2868 capture, scaled (shown at about a third of that: sharp on retina)
 HERO_SCREENS = ("dashboard", "plan")
-ICONS = [
-    '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9v6"/>',
-    '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><circle cx="17" cy="17" r="4"/>',
-    '<rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 018 0v3"/>',
+RAIL_SCREENS = ["subjects", "tasks", "stats", "study"]
+USED_SCREENS = list(HERO_SCREENS) + RAIL_SCREENS
+# one card per section of the App Store description, in its order: icon and accent color
+SECTION_STYLE = [
+    ("#F59E0B", '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+    ("#0EA5E9", '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+    ("#DB2777", '<path d="M4 20v-7M10 20V5M16 20v-10M22 20H2"/>'),
+    ("#4F46E5", '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9v6"/>'),
+    ("#16A34A", '<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 12l2.5 2.5 4.5-5"/>'),
+    ("#7C3AED", '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>'),
+    ("#E11D48", '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>'),
+    ("#0D9488", '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>'),
+    ("#6366F1", '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>'),
+    ("#475569", '<rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 018 0v3"/>'),
 ]
 
 STYLE = """\
@@ -85,7 +92,7 @@ footer{margin-top:46px;color:var(--soft);font-size:13px;display:flex;gap:6px 18p
 .pick{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:24px 0}
 .pick a{display:block;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;font-weight:700}
 .pick a:hover{border-color:var(--accent);color:var(--accent)}.pick small{display:block;color:var(--soft);font-weight:600;font-size:13px}
-.wide .wrap,.wrap.wide{max-width:1120px}
+.home .wrap{max-width:1120px}
 .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;margin:8px 0 56px}
 .hero h1{font-size:clamp(32px,4.4vw,52px);line-height:1.08;margin-bottom:18px}
 .hero .lead{font-size:20px;max-width:560px}
@@ -106,25 +113,20 @@ footer{margin-top:46px;color:var(--soft);font-size:13px;display:flex;gap:6px 18p
 .stat b{display:block;font-size:clamp(34px,5vw,48px);line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--accent)}
 .stat span{color:var(--soft);font-weight:700;font-size:15px}
 .sec-title{font-size:clamp(26px,4vw,38px);line-height:1.15;font-weight:800;letter-spacing:-.015em;text-align:center;margin:0 auto 40px;max-width:760px;text-wrap:balance}
-.feat{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin:0 0 72px}
-.feat.rev .feat-art{order:2}
-.feat-art{position:relative;display:flex;justify-content:center;padding:28px 0}
-.feat-art::before{content:"";position:absolute;inset:0 8%;border-radius:36px;background:linear-gradient(160deg,var(--c1),var(--c2));opacity:.16}
-.feat-art .phone{width:min(100%,290px)}
-.eyebrow{margin:0 0 10px;font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--c1,var(--accent))}
-@media (prefers-color-scheme:dark){.eyebrow{filter:brightness(1.35)}}
-.feat h3{font-size:clamp(24px,3.4vw,34px);line-height:1.18;font-weight:800;letter-spacing:-.012em;margin:0 0 18px;text-wrap:balance}
+.feats{column-count:2;column-gap:18px;margin:0 0 72px}
+.fcard{break-inside:avoid;margin:0 0 18px;padding:26px 26px 14px;border-radius:24px;background:var(--card);border:1px solid var(--border)}
+.fhead{display:flex;align-items:center;gap:14px;margin:0 0 16px}
+.ico{flex:none;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--tint);background:color-mix(in srgb,var(--c) 15%,transparent)}
+.ico svg{width:24px;height:24px;stroke:var(--c);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.fcard h3{margin:0;font-size:15px;line-height:1.3;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .ticks{list-style:none;padding:0;margin:0}
-.ticks li{position:relative;padding-left:32px;margin:0 0 12px;color:var(--soft);font-size:16.5px}
-.ticks li::before{content:"✓";position:absolute;left:0;top:2px;width:21px;height:21px;border-radius:50%;background:var(--tint);color:var(--accent);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.more{margin:0 0 72px}
-.more .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0}
-.more .card{padding:26px}
-.more .card svg{width:30px;height:30px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
-.more .card h3{font-size:19px}.more .card p{font-size:16px;line-height:1.55}
+.ticks li{position:relative;padding:0 0 0 30px;margin:0 0 13px;color:var(--soft);font-size:16px;line-height:1.5}
+.ticks li b{color:var(--ink);font-weight:700}
+.ticks li::before{content:"✓";position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:50%;background:var(--tint);background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .screens{margin:0 0 72px}
 .rail{display:flex;gap:22px;overflow-x:auto;padding:6px 20px 26px;margin:0 -20px;scroll-snap-type:x mandatory;justify-content:safe center}
-.rail .phone{flex:none;width:230px;scroll-snap-align:center}
+.rail figure{flex:none;width:220px;margin:0;scroll-snap-align:center;text-align:center}.rail figcaption{margin-top:14px;font-weight:700;font-size:15px;line-height:1.35;color:var(--ink);text-wrap:balance}
+.rail .phone{width:100%}
 .langs-sec{text-align:center;margin:0 0 72px}
 .langs-sec p{color:var(--soft);max-width:560px;margin:-18px auto 26px}
 .pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0;padding:0;list-style:none}
@@ -141,8 +143,8 @@ footer{margin-top:46px;color:var(--soft);font-size:13px;display:flex;gap:6px 18p
 @media (max-width:860px){
   .hero .btns{flex-wrap:wrap}
   .hero{grid-template-columns:1fr;gap:28px}.hero-art{height:470px;max-width:440px;margin:0 auto;width:100%}.hero-art .phone{width:215px}
-  .feat,.feat.rev{grid-template-columns:1fr;gap:20px;margin-bottom:56px}.feat.rev .feat-art{order:0}
-  .stats{grid-template-columns:1fr}.more .grid{grid-template-columns:1fr}
+  .feats{column-count:1}
+  .stats{grid-template-columns:1fr}
   .rail{justify-content:flex-start}
 }
 """
@@ -235,6 +237,14 @@ def blocks_html(lang: dict, blocks) -> str:
     return "\n".join(out) + "\n"
 
 
+def bold_lead(text: str) -> str:
+    """"Label: detail" -> the label in bold, when it is short enough to be one."""
+    head, sep, tail = text.partition("：" if "：" in text[:30] else ":")
+    if sep and 2 <= len(head) <= 34 and tail.strip():
+        return f"<b>{esc(head)}{sep}</b>{esc(tail)}"
+    return esc(text)
+
+
 def phone(lang: dict, scene: str, alt: str, lazy: bool = True, cls: str = "") -> str:
     loading = ' loading="lazy"' if lazy else ""
     return (f'<div class="phone{" " + cls if cls else ""}"><img src="../assets/shots/{lang["folder"]}-{scene}.jpg"'
@@ -252,22 +262,15 @@ def index_page(lang: dict) -> str:
     chips = "".join(f"<li>{esc(t)}</li>" for t in ui["chips"])
     stats = "".join(f'<div class="stat"><b>{n}</b><span>{esc(t)}</span></div>'
                     for n, t in zip(("13", "0", "100%"), ui["stats"]))
-    rows = []
-    for i, (scene, sec) in enumerate(SHOWCASE):
-        heading, bullets = feats["sections"][sec]
-        headline = feats["headlines"][FEATURES["scenes"].index(scene)]
-        c1, c2 = colors[scene]
-        ticks = "".join(f"<li>{esc(b)}</li>" for b in bullets)
-        rows.append(
-            f'<article class="feat reveal{" rev" if i % 2 else ""}" style="--c1:{c1};--c2:{c2}">'
-            f'<div class="feat-art">{phone(lang, scene, headline)}</div>'
-            f'<div class="feat-text"><p class="eyebrow">{esc(heading)}</p><h3>{esc(headline)}</h3><ul class="ticks">{ticks}</ul></div>'
-            "</article>")
-    cards = c["cards"] if len(c["cards"]) == 3 else [c["cards"][3], c["cards"][6], c["cards"][7]]
-    more = "".join(
-        f'<div class="card"><svg viewBox="0 0 24 24" aria-hidden="true">{icon}</svg><h3>{esc(t)}</h3><p>{esc(p)}</p></div>'
-        for icon, (t, p) in zip(ICONS, cards))
-    rail = "".join(phone(lang, sc, feats["headlines"][FEATURES["scenes"].index(sc)]) for sc in MORE_SCREENS)
+    cards = []
+    for (color, icon), (heading, bullets) in zip(SECTION_STYLE, feats["sections"]):
+        items = "".join(f"<li>{bold_lead(b)}</li>" for b in bullets)
+        cards.append(
+            f'<article class="fcard" style="--c:{color}"><div class="fhead"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true">{icon}</svg></span>'
+            f'<h3>{esc(heading)}</h3></div><ul class="ticks">{items}</ul></article>')
+    rail = "".join(
+        f'<figure>{phone(lang, sc, feats["headlines"][FEATURES["scenes"].index(sc)])}'
+        f'<figcaption>{esc(feats["headlines"][FEATURES["scenes"].index(sc)])}</figcaption></figure>' for sc in RAIL_SCREENS)
     pills = "".join(
         f'<li><a href="../{l["folder"]}/index.html" hreflang="{l["code"]}" lang="{l["html_lang"]}"'
         f'{" aria-current=page" if l is lang else ""}>{esc(l["label"])}</a></li>' for l in LANGS)
@@ -277,8 +280,7 @@ def index_page(lang: dict) -> str:
             f'<a class="btn ghost" href="support.html">{esc(c["support_btn"])}</a></div>'
             f'<ul class="chips">{chips}</ul></div><div class="hero-art">{hero_art}</div></section>\n'
             f'<section class="stats">{stats}</section>\n'
-            f'<section id="features"><h2 class="sec-title">{esc(ui["features_title"])}</h2>\n' + "\n".join(rows) + "</section>\n"
-            f'<section class="more reveal"><h2 class="sec-title">{esc(ui["more_title"])}</h2><div class="grid">{more}</div></section>\n'
+            f'<section id="features"><h2 class="sec-title">{esc(ui["features_title"])}</h2><div class="feats">' + "".join(cards) + "</div></section>\n"
             f'<section class="screens reveal"><h2 class="sec-title">{esc(ui["screens_title"])}</h2><div class="rail">{rail}</div></section>\n'
             f'<section class="langs-sec reveal"><h2 class="sec-title">{esc(ui["langs_title"])}</h2><p>{esc(ui["langs_text"])}</p><ul class="pills">{pills}</ul></section>\n'
             f'<section class="cta reveal"><h2>{esc(ui["cta_title"])}</h2><p>{esc(ui["cta_text"])}</p>'
@@ -329,13 +331,13 @@ def build_shots(shots_dir: Path) -> None:
     for old in out.glob("*.jpg"):
         old.unlink()
     for folder, source in SHOT_FOLDERS.items():
-        for scene in SCENES:
+        for scene in USED_SCREENS:
             path = shots_dir / source / f"{scene}.png"
             if not path.exists():
                 print("missing", path)
                 continue
             Image.open(path).convert("RGB").resize((SHOT_W, SHOT_H), Image.LANCZOS).save(
-                out / f"{folder}-{scene}.jpg", "JPEG", quality=80, optimize=True, progressive=True)
+                out / f"{folder}-{scene}.jpg", "JPEG", quality=84, optimize=True, progressive=True)
 
 
 def main() -> None:
